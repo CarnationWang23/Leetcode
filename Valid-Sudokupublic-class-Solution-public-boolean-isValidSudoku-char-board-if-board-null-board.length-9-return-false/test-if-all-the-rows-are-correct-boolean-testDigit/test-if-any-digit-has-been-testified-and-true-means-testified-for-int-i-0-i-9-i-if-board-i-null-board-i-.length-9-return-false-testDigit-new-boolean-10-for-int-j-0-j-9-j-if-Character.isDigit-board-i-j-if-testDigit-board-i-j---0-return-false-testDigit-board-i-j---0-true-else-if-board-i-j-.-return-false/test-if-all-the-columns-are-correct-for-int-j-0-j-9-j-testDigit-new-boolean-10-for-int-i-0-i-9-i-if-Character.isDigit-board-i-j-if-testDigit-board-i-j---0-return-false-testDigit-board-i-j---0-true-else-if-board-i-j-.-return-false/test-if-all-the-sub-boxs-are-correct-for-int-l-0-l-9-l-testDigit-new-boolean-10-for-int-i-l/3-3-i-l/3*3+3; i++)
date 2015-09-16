@@ -1,0 +1,55 @@
+public class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        if(board==null || board.length!=9)
+			return false;
+		
+		// test if all the rows are correct
+		boolean testDigit[];  //test if any digit has been testified, and true means testified
+		for(int i=0; i<9; i++)
+		{
+			if(board[i]==null || board[i].length!=9) return false;
+			testDigit = new boolean[10];
+			for(int j=0; j<9; j++)
+			{
+				if(Character.isDigit(board[i][j]))
+				{
+					if(testDigit[board[i][j]-'0']) return false;
+					testDigit[board[i][j]-'0'] = true;  
+				}
+				else if(board[i][j]!='.') return false;
+			}
+		}
+		
+		//test if all the columns are correct
+		for(int j=0; j<9; j++)
+		{
+			testDigit = new boolean[10];
+			for(int i=0; i<9; i++)
+			{
+				if(Character.isDigit(board[i][j]))
+				{
+					if(testDigit[board[i][j]-'0']) return false;
+					testDigit[board[i][j]-'0'] = true;
+				}
+				else if(board[i][j]!='.') return false;
+			}
+		}
+		
+		//test if all the sub-boxs are correct
+		for(int l=0; l<9; l++)
+		{
+			testDigit = new boolean[10];
+			for(int i=l/3*3; i<l/3*3+3; i++)
+				for(int j=l%3*3; j<l%3*3+3; j++)
+				{
+					if(Character.isDigit(board[i][j]))
+					{
+						if(testDigit[board[i][j]-'0']) return false;
+						testDigit[board[i][j]-'0'] = true;
+					}
+					else if(board[i][j]!='.') return false;
+				}
+		}
+		return true;
+    }
+}
