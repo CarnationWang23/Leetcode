@@ -1,0 +1,33 @@
+public class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] result = new int[2];
+        if(nums==null) {return new int[] {-1,-1};}
+        int tmp= binarySearch(nums, 0, nums.length-1, target);
+        if(tmp == -1) return new int[] {-1,-1};
+        result[0] = tmp-1;
+        result[1] = tmp+1;
+        int left,right; ;
+        while((left= binarySearch(nums, 0, result[0], target))!=-1)
+        {
+        	result[0]=left-1;
+        }
+        while((right = binarySearch(nums, result[1], nums.length-1, target))!=-1)
+        {
+        	result[1]=right+1;
+        }
+        result = new int[]{result[0]+1, result[1]-1};
+        return result;
+    }
+	
+	public int binarySearch(int[] nums, int start, int end, int target)
+	{
+		while(start<=end && start<nums.length && end>-1)
+        {
+        	int mid = (start+end)/2;
+        	if(nums[mid]==target) return mid;
+        	else if(nums[mid]<target) {start=mid+1;}
+        	else {end=mid-1;}
+        }
+		return -1;
+	}
+}
