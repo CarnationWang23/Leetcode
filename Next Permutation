@@ -1,0 +1,42 @@
+public class Solution {
+    public void nextPermutation(int[] nums) {
+        if(nums==null) return;
+        int t; //as transger number
+		for(int j=nums.length-2; j>=0; j--)
+		{
+			for(int i=nums.length-1; i>j; i--)
+			{
+				if(nums[i]>nums[j])
+				{
+					t = nums[i];
+					nums[i] = nums[j];
+					nums[j] = t;
+					System.out.println(i);
+					System.out.println(j);
+					//the number from (j+1)th to (length-1)th should be the smallest, sort it!
+					for(int l=j+1; l<nums.length-1; l++)
+					{
+						for(int k=l+1; k<nums.length; k++)
+						{
+							if(nums[l]>nums[k])
+							{
+								t = nums[l];
+								nums[l] = nums[k];
+								nums[k] = t;
+							}
+						}
+					}
+					return;
+				}
+			}
+		}
+		
+		// it is the largest
+		for(int i=0, j=nums.length-1; i<j; i++, j--)
+		{
+			t = nums[i];
+			nums[i] = nums[j];
+			nums[j] = t;
+		}
+    }
+}
