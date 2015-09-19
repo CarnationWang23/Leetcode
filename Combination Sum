@@ -1,0 +1,51 @@
+public class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        if(target<candidates[0]) return new LinkedList<List<Integer>>();
+        List<List<Integer>> result = new LinkedList<List<Integer>>();
+        List<List<Integer>> tresult = cCombinationSum(candidates, 0, target);
+		for(int j=0; j<tresult.size(); j++)
+		{
+			if(!tresult.get(j).contains(-1))
+			{
+				result.add(tresult.get(j));
+			}
+		}
+        return result;
+    }
+	
+	public List<List<Integer>> cCombinationSum(int[] candidates, int start, int target) {
+		List<List<Integer>> result = new LinkedList<List<Integer>>();
+		List<List<Integer>> tresult  = null;
+        for(int i=start; i<candidates.length; i++)
+        {
+        	if(target==candidates[i]) 
+        	{
+        		List<Integer> tlist = new LinkedList<>();
+        		tlist.add(candidates[i]);
+        		result.add(tlist);
+        	}
+        	else if(target<candidates[i])
+        	{
+        		List<Integer> tlist = new LinkedList<>();
+        		tlist.add(-1);
+        		result.add(tlist);
+        	}
+        	else
+        	{
+        		tresult = cCombinationSum(candidates, i, target-candidates[i]);
+        		for(int j=0; j<tresult.size(); j++)
+        		{
+        			if(!tresult.get(j).contains(-1))
+        			{
+        				List<Integer> tlist = new LinkedList<>();
+        				tlist.add(candidates[i]);
+        				tlist.addAll(tresult.get(j));
+        				result.add(tlist);
+        			}
+        		}
+        	}
+        }
+        return result;
+    }
+}
