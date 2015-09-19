@@ -15,7 +15,7 @@ public class Solution {
                 break;
             } else if (can[i] < target) {
                 temp.add(can[i]);
-                 helper(can, i, target - can[i], new ArrayList<>(temp));
+                 helper(can, i, target - can[i], temp);
             } else {break;}
         }
         return;
