@@ -1,0 +1,33 @@
+public class Solution {
+    public String countAndSay(int n) {
+        if(n==1) return "1";
+		if(n==2) return "11";
+		String result = "11";
+		char value; 
+		int count;
+		String tresult;
+		for(int i=3; i<=n; i++)
+		{
+			tresult = result;
+			result = "";
+			value = tresult.charAt(0); 
+			count=1;
+			for(int j=1; j<tresult.length(); j++)
+			{
+				if(tresult.charAt(j)!=value)
+				{
+					result += (char)(count+'0');
+					result += value;
+					value = tresult.charAt(j);
+					count = 1;
+				}
+				else
+					count++;
+			}
+			result += (char)(count+'0');
+			result += value;
+			
+		}
+		return result;
+    }
+}
