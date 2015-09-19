@@ -1,0 +1,35 @@
+public class Solution {
+    public int search(int[] nums, int target) {
+        if(nums==null) return -1;
+        int start = 0, end = nums.length-1;
+        int tmp;
+        while(start<=end && start<nums.length && end>-1)
+        {
+        	int mid = (start+end)/2;
+        	//the idea is 'one half of the array is sorted and can use binary search to it'
+        	if(nums[start]<=nums[mid])
+        	{
+        		if((tmp=biSearch(nums, start, mid, target))!=-1) return tmp;
+        		start = mid+1;
+        	}
+        	if(nums[mid]<=nums[end])
+        	{
+        		if((tmp=biSearch(nums, mid+1, end, target))!=-1) return tmp;
+        		end = mid;
+        	}
+        }
+		return -1;
+    }
+	
+	public int biSearch(int[] nums, int start, int end, int target)
+	{
+		while(start<=end && start<nums.length && end>-1)
+        {
+        	int mid = (start+end)/2;
+        	if(nums[mid]==target) return mid;
+        	else if(nums[mid]<target) {start=mid+1;}
+        	else {end=mid-1;}
+        }
+		return -1;
+    }
+}
