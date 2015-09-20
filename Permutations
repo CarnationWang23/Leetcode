@@ -1,0 +1,25 @@
+public class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new LinkedList<List<Integer>>();
+        insertNumber(nums, 0, new LinkedList<Integer>(), result);
+        
+        return result;
+    }
+	
+	public void insertNumber(int[] nums, int position, List<Integer> item, List<List<Integer>> result)
+	{
+		if(position==nums.length) 
+		{
+			result.add(new LinkedList<Integer>(item));
+			return;
+		}
+		List<Integer> tItem = new LinkedList<Integer>(item);
+		for(int j=0; j<=position; j++)
+		{
+			tItem.add(j, nums[position]);
+			insertNumber(nums, position+1, tItem, result);
+			tItem.remove(j);
+		}
+	
+	}
+}
