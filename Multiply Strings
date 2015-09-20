@@ -1,0 +1,32 @@
+public String multiply(String num1, String num2) {
+        StringBuilder str1 = new StringBuilder(num1).reverse();
+        StringBuilder str2 = new StringBuilder(num2).reverse();
+        int nums[] = new int[str1.length()+str2.length()];
+        
+        for(int i=0; i<str1.length(); i++)
+        {
+        	for(int j=0; j<str2.length(); j++)
+        	{
+        		nums[i+j] += (str1.charAt(i)-'0')*(str2.charAt(j)-'0');
+        	}
+        }
+        StringBuilder result = new StringBuilder();
+        int carry = 0;
+        for(int i=0; i<nums.length; i++)
+        {
+        	result.insert(0, (carry+nums[i])%10);
+        	carry = (carry+nums[i])/10;
+        }
+        if(carry!=0) result.insert(0, carry);
+        int start;
+        for(start=0; start<result.length(); start++)
+        {
+        	if(result.charAt(start)!='0') break;
+        }
+        if(start>0)
+        {
+        	result.delete(0, start);
+        }
+        if(result.length()==0) return "0";
+        return result.toString();
+    }
