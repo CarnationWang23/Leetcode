@@ -1,0 +1,33 @@
+public class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new LinkedList<List<Integer>>();
+        Arrays.sort(nums);
+        positionValue(nums, 0, result);
+        return result;
+    }
+	
+	/**
+	 * ensure very position one by one and avoid duplication
+	 */
+	public void positionValue(int[] nums, int position, List<List<Integer>> result)
+	{
+		if(position==nums.length)
+		{
+			List<Integer> item = new LinkedList<Integer>();
+			for(int i:nums) item.add(i);
+			result.add(item);
+			return;
+		}
+		
+		for(int i=position; i<nums.length; i++)
+		{
+			if(i!=position && nums[i]==nums[position])
+			{
+				continue;
+			}
+			int t; 
+			t = nums[i]; nums[i]=nums[position]; nums[position]=t;
+			positionValue(Arrays.copyOf(nums, nums.length), position+1, result);
+		}
+	}
+}
