@@ -1,0 +1,27 @@
+public class Solution {
+    public String getPermutation(int n, int k) {
+        if(n<=0 || k<=0) return "";
+        int max = 1;
+        List<Integer> list = new LinkedList<Integer>();
+        for(int i= 1; i<=n; i++)
+        {
+        	max*=i;
+        	list.add(i);
+        }	
+        if(k>max) return "";
+        k--;
+        char[] result = new char[n];
+        int tn = n;
+        max = max/tn;
+        for(int i=0; i<n; i++)
+        {
+        	Collections.sort(list);
+        	result[i] = (char) ('0'+list.get(k/(max)));
+        	list.remove(k/(max));
+        	k%=(max);
+        	if(tn>1)
+        		max = max/--tn;
+        }
+        return String.valueOf(result);
+    }
+}
