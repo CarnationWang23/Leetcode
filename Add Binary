@@ -1,0 +1,50 @@
+public class Solution {
+    public String addBinary(String a, String b) {
+    
+        if(a.length()==0&&b.length()==0) return "0";
+		else if(a.length()==0) return b;
+		else if(b.length()==0) return a;
+		if(a.length()>b.length()) {String t=a; a=b;b=t;}
+		char[] result = new char[b.length()+1];
+		boolean carrier = false;
+		for(int i=0; i<a.length(); i++)
+		{
+			int sum = (carrier?1:0)+(a.charAt(a.length()-1-i)-'0')+(b.charAt(b.length()-1-i)-'0');
+			if(sum==0)
+			{
+				result[b.length()-i]='0'; carrier =false;
+			}	
+			else if(sum==1)
+			{
+				result[b.length()-i]='1'; carrier =false;
+			}
+			else if(sum==2)
+			{
+				result[b.length()-i]='0'; carrier =true;
+			}
+			else if(sum==3)
+			{
+				result[b.length()-i]='1'; carrier =true;
+			}
+		}
+        for(int i=b.length()-1-a.length(); i>=0; i--)
+        {
+        	if(!carrier) 
+        	{
+        		result[i+1] = b.charAt(i);
+        	}
+        	else if(b.charAt(i)=='0') 
+        	{
+        		result[i+1]='1';
+        		carrier = false;
+        	}
+        	else 
+        	{
+        		result[i+1]='0';
+        	}
+        }
+        if(!carrier) return String.valueOf(result,1,b.length());
+        result[0]='1'; return String.valueOf(result);
+    }
+    
+}
