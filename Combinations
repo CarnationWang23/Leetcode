@@ -1,0 +1,28 @@
+public class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+		List<List<Integer>> result = new LinkedList<List<Integer>>();
+	    for(int i=1; i<=n-k+1; i++)
+	    {
+	    	List<Integer> item = new LinkedList<Integer>();
+	    	item.add(i);
+	    	combineHelper(i+1 , n, k-1, item, result);
+	    }
+	    
+	    return result;
+    }
+	public void combineHelper(int start, int n, int k, List<Integer> item, List<List<Integer>> result)
+	{
+		if(k==0) 
+		{
+			result.add(item);
+			return;
+		}
+		
+		for(int i=start; i<=n-k+1; i++)
+	    {
+	    	List<Integer> newItem = new LinkedList<Integer>(item);
+	    	newItem.add(i);
+	    	combineHelper(i+1 , n, k-1, newItem, result);
+	    }
+	}
+}
