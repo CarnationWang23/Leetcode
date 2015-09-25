@@ -1,0 +1,21 @@
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        Arrays.sort(nums);
+		List<List<Integer>> result = new LinkedList<List<Integer>>();
+		subsetsHelper(nums, 0, new LinkedList<Integer>(), result);
+	    return result;
+    }
+	
+	public void subsetsHelper(int[] nums, int position, List<Integer> item, List<List<Integer>> result)
+	{
+		if(position==nums.length) 
+		{
+			result.add(item);
+			return;
+		}
+		subsetsHelper(nums, position+1, new LinkedList<Integer>(item), result);
+		List<Integer> newList = new LinkedList<Integer>(item);
+		newList.add(nums[position]);
+		subsetsHelper(nums, position+1, newList, result);
+	}
+}
