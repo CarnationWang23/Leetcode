@@ -27,7 +27,7 @@ public class Solution {
         	head = head.next;
         }
         less_end.next = more_start.next;
-		more_end.next = null;
-		return less_start.next;
+	more_end.next = null;
+	return less_start.next;
     }
 }
