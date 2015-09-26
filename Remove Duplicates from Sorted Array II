@@ -1,0 +1,26 @@
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums==null || nums.length==0) return 0;
+		int current = nums[0], count = 0, result = 0;
+		for(int num : nums)
+		{
+			if(num == current)
+			{
+				if(count<2)
+				{
+					nums[result+count] = current;
+					count++;
+				}	
+			}
+			else 
+			{
+				current = num;
+				nums[result+count] = current;
+				result+=count;
+				count = 1;
+			}
+		}
+		result+=count;
+		return result;
+    }
+}
