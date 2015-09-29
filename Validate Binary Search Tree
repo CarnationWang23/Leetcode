@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isValidBST(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        if(root==null) return true;
+        stack.add(root);
+        TreeNode current;
+        boolean flag=false;
+        long currentValue=Long.MIN_VALUE;
+        while(!stack.isEmpty())
+        {
+        	current = stack.peek();
+        	if(!flag&&current.left!=null)
+        	{
+        		stack.push(current.left);
+        		flag = false;
+        	}
+        	else
+        	{
+        		int popValue = stack.pop().val;
+        		if(popValue<=currentValue)
+        			return false;
+        		else
+        			currentValue = popValue;
+        		flag = true;
+        		if(current.right!=null)
+        		{
+        			stack.push(current.right);
+        			flag = false;
+        		}
+        	}
+        }
+		return true;
+    }
+}
