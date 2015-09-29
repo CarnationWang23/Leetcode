@@ -1,0 +1,31 @@
+/**
+* morris traversal 原理很简单，利用所有叶子结点的right 指针，指向其后继结点，组成一个环，
+* 在第二次遍历到这个结点时，由于其左子树已经遍历完了，则访问该结点
+**/
+public class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+       TreeNode node = root;
+       List<Integer> list = new ArrayList<Integer>();
+       while (node != null) {
+           // POINT 1
+           if (node.left == null) {
+               list.add(node.val);
+               node = node.right;
+           } else {
+               TreeNode temp = node.left;
+               while (temp.right != null && temp.right != node) temp = temp.right;
+               // POINT 2
+               if (temp.right == node) {
+                   temp.right = null;
+                   list.add(node.val);
+                   node = node.right;
+               // POINT 3
+               } else {
+                   temp.right = node;
+                   node = node.left;
+               }
+           }
+       }
+       return list;
+    }
+}
