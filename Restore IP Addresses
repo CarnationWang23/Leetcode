@@ -1,0 +1,46 @@
+public class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> result = new LinkedList<String>();
+        restoreHelper(0, s, "", result );
+        return result;
+    }
+	
+	public void restoreHelper(int position, String s, String item, List<String> result)
+	{
+		if(position>3) 
+		{
+			if(s.length()==0)
+				result.add(item.substring(0,item.length()-1));
+			return;
+		}
+		if(position<=3 && s.length()==0)
+			return;
+		if(s.length()==1)
+		{
+			restoreHelper(position+1, "", item+s+".", result);
+		}
+		else if(s.length()==2)
+		{
+			int ten = (s.charAt(0)-'0')*10+(s.charAt(1)-'0');
+			if(ten>=10)
+			{
+				restoreHelper(position+1, "", item+s+".", result);
+			}
+			restoreHelper(position+1, s.substring(1), item+s.charAt(0)+".", result);			
+		}
+		else
+		{
+			int hundred = (s.charAt(0)-'0')*100+(s.charAt(1)-'0')*10+(s.charAt(2)-'0');
+			if(hundred<=255 && hundred>=100)
+			{
+				restoreHelper(position+1, s.substring(3), item+s.substring(0,3)+".", result);
+			}
+			int ten = (s.charAt(0)-'0')*10+(s.charAt(2)-'0');
+			if(ten>=10)
+			{
+				restoreHelper(position+1, s.substring(2), item+s.substring(0,2)+".", result);
+			}
+			restoreHelper(position+1, s.substring(1), item+s.substring(0,1)+".", result);
+		}
+	}
+}
