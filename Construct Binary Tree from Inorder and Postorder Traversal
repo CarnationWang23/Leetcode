@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder){
+		if(postorder==null||postorder.length==0) return null;
+        return buildTreeHelper(postorder, 0, postorder.length-1, inorder, 0, inorder.length-1);
+    }
+	
+	public TreeNode buildTreeHelper(int[] postorder, int pstart, int pend, int[] inorder, int istart, int iend)
+	{
+		if(pstart==pend)
+			return new TreeNode(postorder[pend]);
+		if(pstart>pend||istart>iend) return null;
+		int left_pstart = pstart, left_pend = 0, left_istart=istart, left_iend = 0, 
+				right_pstart = 0, right_pend=pend-1, right_istart = 0, right_iend=iend;
+		for(int i=istart; i<=iend; i++)
+		{
+			if(inorder[i]==postorder[pend])
+			{
+				left_iend = i-1;
+				right_istart = i+1;
+				break;
+			}
+		}
+		left_pend = pstart+(left_iend-left_istart);
+		right_pstart = left_pend+1;
+		TreeNode result = new TreeNode(postorder[pend]);
+		if(left_iend>=istart)
+		{
+			result.left = buildTreeHelper(postorder, left_pstart, left_pend, inorder, left_istart, left_iend);	
+		}
+		if(right_istart<=iend)
+		{
+			result.right = buildTreeHelper(postorder, right_pstart, right_pend, inorder, right_istart, right_iend);
+		}
+		return result;
+	}
+}
