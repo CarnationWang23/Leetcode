@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if(root==null) return true;
+        int leftHeight = isBalancedHelper(root.left);
+		int rightHeight = isBalancedHelper(root.right);
+		if(leftHeight!=-1&&rightHeight!=-1&&Math.abs(leftHeight-rightHeight)<=1)
+			return true;
+		else
+			return false;
+    }
+	
+	private int isBalancedHelper(TreeNode node) {
+		// TODO Auto-generated method stub
+		if(node==null) return 0;
+		int leftHeight = isBalancedHelper(node.left);
+		int rightHeight = isBalancedHelper(node.right);
+		if(leftHeight!=-1&&rightHeight!=-1&&Math.abs(leftHeight-rightHeight)<=1) 
+			return leftHeight>rightHeight ? leftHeight+1 : rightHeight+1;
+		else 
+			return -1;
+	}
+}
