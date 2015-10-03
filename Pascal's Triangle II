@@ -1,0 +1,20 @@
+public class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> pre = new LinkedList<Integer>();
+		pre.add(1);
+		if(rowIndex==0) return pre;
+		List<Integer> current = null;
+		for(int i=1; i<=rowIndex; i++)
+		{
+			current = new LinkedList<Integer>();
+			current.add(1);
+			for(int j=1; j<i;j++)
+			{
+				current.add(pre.get(j-1)+pre.get(j));
+			}
+			current.add(1);
+			pre = current;
+		}
+		return current;
+    }
+}
