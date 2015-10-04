@@ -1,0 +1,20 @@
+public class Solution {
+    public boolean isPalindrome(String s) {
+        if(s==null||s.length()==0) return true;
+		int head=0, tail=s.length()-1;
+		while(head<tail)
+		{
+			while(head<tail&&!Character.isAlphabetic(s.charAt(head))&&!Character.isDigit(s.charAt(head))) head++;
+			while(head<tail&&!Character.isAlphabetic(s.charAt(tail))&&!Character.isDigit(s.charAt(tail))) tail--;
+			if(head<tail && toUpperCase(s.charAt(head))!=toUpperCase(s.charAt(tail)))
+				return false;
+			head++; tail--;
+		}
+		return true;
+    }
+    public char toUpperCase(char c)
+	{
+		if(c>='A'&& c<='Z') return (char) (c-('A'-'a'));
+		else return c;
+	}
+}
