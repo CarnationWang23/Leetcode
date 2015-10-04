@@ -1,0 +1,48 @@
+public class Solution {
+   
+   public int ladderLength(String beginWord, String endWord, Set<String> wordList)
+	{
+		Set<String> newAdded;
+		Set<String> preAdded = new HashSet<String>();
+		wordList.add(endWord);
+		preAdded.add(beginWord);
+		int distance = 1;
+		while(!preAdded.contains(endWord))
+		{
+			newAdded = new HashSet<String>();
+			for(String s : preAdded)
+			{
+				for (int i = 0; i < s.length(); i++) {
+	                char[] chars = s.toCharArray();
+	                for (char ch = 'a'; ch <= 'z'; ch++) {
+	                    chars[i] = ch;
+	                    String word = new String(chars);
+	                    if(wordList.contains(word)) {
+	                        newAdded.add(word);
+	                        wordList.remove(word);
+	                    }
+	                }
+	            }
+			}
+			if(newAdded.isEmpty()) return 0;
+			distance++;
+			preAdded = newAdded;
+		}
+		return distance;
+	}
+
+	public boolean transferable(String a, String b)
+	{
+		// resume a and b are of the same length and their length do not equal to 0
+		boolean flag=false;
+		for(int i=0; i<a.length(); i++)
+		{
+			if(a.charAt(i)!=b.charAt(i))
+			{
+				if(flag) return false;
+				else flag = true;
+			}
+		}
+		return flag;
+	}
+}
