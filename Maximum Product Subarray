@@ -1,0 +1,14 @@
+public class Solution {
+    public int maxProduct(int[] nums){
+		if(nums==null||nums.length==0) return 0;
+		int maxNow = nums[0], minNow = nums[0], max = nums[0];
+		for(int i=1; i<nums.length; i++)
+		{
+		    int temMaxNow = maxNow;
+			maxNow = Math.max(nums[i], Math.max(nums[i]*maxNow, nums[i]*minNow));
+			minNow = Math.min(nums[i], Math.min(nums[i]*temMaxNow, nums[i]*minNow));
+			max = Math.max(maxNow, max);
+		}
+		return max;
+	}
+}
