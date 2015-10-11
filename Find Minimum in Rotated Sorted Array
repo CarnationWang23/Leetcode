@@ -1,0 +1,15 @@
+public class Solution {
+    public int findMin(int[] nums)
+	{
+		if(nums==null||nums.length==0) return 0;
+		return findMinHelper(nums, 0, nums.length-1);
+	}
+	public int findMinHelper(int[] nums, int start, int end)
+	{
+		if(start==end) return nums[start];
+		int mid = (start+end)/2;
+		if(nums[mid]>nums[end]) return findMinHelper(nums, mid+1, end);
+		else if(nums[mid]<nums[start]) return findMinHelper(nums, start, mid);
+		else return nums[start];
+	}
+}
