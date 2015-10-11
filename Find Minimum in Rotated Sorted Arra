@@ -1,0 +1,24 @@
+public class Solution {
+    public int findMin(int[] nums)
+	{
+		if(nums==null||nums.length==0) return 0;
+		return findMinHelper(nums, 0, nums.length-1);
+	}
+	public int findMinHelper(int[] nums, int start, int end)
+	{
+		if(start==end) return nums[start];
+		if(end-start==1) return nums[start]<nums[end]? nums[start] : nums[end];
+		int mid = (start+end)/2;
+		if(nums[mid]>nums[end]) return findMinHelper(nums, mid+1, end);
+		else if(nums[mid]<nums[start]) return findMinHelper(nums, start, mid);
+		else if(nums[start]==nums[mid] && nums[mid]!=nums[end]) return findMinHelper(nums, mid, end);
+		else if(nums[end]==nums[mid] && nums[mid]!=nums[start]) return findMinHelper(nums, start, mid);
+		else if(nums[start]==nums[mid] && nums[mid]==nums[end])
+		{
+			int t1 = findMinHelper(nums, start, mid-1);
+			int t2 = findMinHelper(nums, mid+1, end);
+			return t1<t2 ? t1 : t2;
+		}
+		else return nums[start];
+	}
+}
