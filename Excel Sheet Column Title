@@ -1,0 +1,13 @@
+public class Solution {
+    public String convertToTitle(int n) {
+        if(n<=0) return "";
+        StringBuilder sb = new StringBuilder();
+        while(n!=0)
+        {
+        	if(n%26==0) {sb.insert(0, 'Z'); n-=26;}
+        	else sb.insert(0, (char)('A'+n%26-1));
+        	n/=26;
+        }
+        return sb.toString();
+    }
+}
