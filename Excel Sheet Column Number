@@ -1,4 +1,4 @@
-public class Solution {
+public class Solution { //leetcode 168
     public int titleToNumber(String s) {
         if(s==null) return 0;
 		int re = 0;
