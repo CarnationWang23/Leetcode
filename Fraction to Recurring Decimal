@@ -1,0 +1,37 @@
+public class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if(denominator==0) return "";
+      	boolean neg = (numerator>=0&&denominator>=0)||(numerator<=0&&denominator<=0) ? false : true;
+      	long numL = Math.abs((long)numerator);
+      	long denL = Math.abs((long)denominator);
+        StringBuilder sb = new StringBuilder();
+        sb.append(numL/denL);
+        numL %= denL;
+        if(numL==0)
+        {
+        	if(neg) sb.insert(0, '-');
+       		return sb.toString();
+        }
+        Map<Long, Integer> map = new HashMap<Long, Integer>(); 
+        sb.append('.');
+        int ind = sb.length();
+        while(numL!=0)
+        {
+        	numL*=10;
+        	long t = numL/denL;
+        	if(!map.containsKey(numL))
+        	{
+        		sb.append(t);
+        		map.put(numL, ind++);
+        	}
+        	else{
+        		sb.insert((int)map.get(numL),'(');
+        		sb.append(')');
+        		break;
+        	}
+        	numL%=denL;
+        }
+   		if(neg) sb.insert(0, '-');
+   		return sb.toString();
+    }
+}
