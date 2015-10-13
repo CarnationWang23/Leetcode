@@ -1,0 +1,28 @@
+public class Solution {
+    public void rotate(int[] nums, int k) {
+        if(nums==null||nums.length==0) return;
+		boolean[] changed = new boolean[nums.length];
+		int n = nums.length;
+		k%=n;
+		for(int j=0; j<k; j++ )
+		{
+			int i=j+k,prevalue=nums[j], value; 
+			if(changed[j]) continue;
+			while(true)
+			{
+				if(i==j)
+				{
+					nums[i]=prevalue;
+					changed[i] = true;
+					break;
+				}
+				value = nums[i];
+				nums[i] = prevalue;
+				changed[i] = true;
+				prevalue = value;
+				i = (i+k)%n;
+			}
+		}
+		return;    
+    }
+}
