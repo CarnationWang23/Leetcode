@@ -1,0 +1,33 @@
+public class Solution {
+    public boolean isHappy(int n)
+	{
+		Set<List<Integer>> set = new HashSet<List<Integer>>();
+		List<Integer> list;
+		while(true)
+		{
+			list = desolve(n);
+			if(set.contains(list)) return false;
+			else{
+			    set.add(list);
+				n = 0;
+				for(Integer i:list)
+				{
+					n += i*i;
+				}
+				if(n==1) return true;
+			}
+		}
+	}
+
+	public List<Integer> desolve(int n)
+	{
+		List<Integer> list = new LinkedList<Integer>();
+		while(n!=0)
+		{
+			list.add(n%10);
+			n/=10;
+		}
+		Collections.sort(list);
+		return list;
+	}
+}
