@@ -1,0 +1,35 @@
+ class Solution {
+public:
+    bool isHappy(int n){
+        int low=n,fast=n;
+        while(1)
+        {
+            int temp=0;
+            while(low)
+            {
+                int l=low%10;
+                temp+=l*l;
+                low/=10;
+            }
+            low=temp;
+            temp=0;
+            while(fast)
+            {
+                int f=fast%10;
+                temp+=f*f;
+                fast/=10;
+            }
+            fast=temp;
+            temp=0;
+            while(fast)
+            {
+                int f=fast%10;
+                temp+=f*f;
+                fast/=10;
+            }
+            fast=temp;
+            if(low==1 || fast==1) return true;
+            if(fast==low) return false;
+        }
+    }
+};
