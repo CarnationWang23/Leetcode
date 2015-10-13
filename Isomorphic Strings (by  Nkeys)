@@ -1,0 +1,35 @@
+public boolean isIsomorphic(String s, String t) {
+
+    if(s.length() != t.length())
+        return false;
+
+    //using ASCII code to map the char
+    int S[] = new int[256];
+    int T[] = new int[256];
+
+    for(int i=0; i<256; i++){
+        S[i] = -1;
+        T[i] = -1;
+
+    }
+
+    char[] sarr = s.toCharArray();
+    char[] tarr = t.toCharArray();
+
+    int len = sarr.length;
+
+    for(int i=0; i<len; i++){
+
+        int sn = (int)sarr[i]; 
+        int tn = (int)tarr[i];
+
+        if( S[sn]==-1 && T[tn]==-1 ){
+            S[sn]=tn;
+            T[tn]=sn;
+        }else if(S[sn]!=tn || T[tn]!=sn)
+            return false;
+    }
+
+    return true;
+
+}
