@@ -1,0 +1,18 @@
+public class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+       Set<String> set = new HashSet<String>();
+		Set<String> reSet = new HashSet<String>();
+		List<String> re = new LinkedList<String>();
+		String current;
+		for(int i=0; i<=s.length()-10; i++)
+		{
+			current = s.substring(i,i+10);
+			if(!set.contains(current))
+				set.add(current);
+			else if(!reSet.contains(current))
+				reSet.add(current);
+		}      
+		for(String str : reSet) re.add(str);
+		return re; 
+    }
+}
