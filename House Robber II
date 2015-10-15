@@ -1,0 +1,23 @@
+public class Solution {
+    public int rob(int[] nums) {
+        if(nums==null) return 0;
+		if(nums.length==1) return nums[0];
+		int steal_1 = 0, nsteal_1 = 0;
+		for(int i=0; i<=nums.length-2; i++)
+		{
+			int temp = Math.max(steal_1, nsteal_1);
+			steal_1 = nsteal_1+nums[i];
+			nsteal_1 = temp;
+		} 
+		int result_1 = Math.max(steal_1, nsteal_1);
+		int steal_0 = 0, nsteal_0 = 0;
+		for(int i=1; i<=nums.length-1; i++)
+		{
+			int temp = Math.max(steal_0, nsteal_0);
+			steal_0 = nsteal_0+nums[i];
+			nsteal_0 = temp;
+		} 
+		int result_0 = Math.max(steal_0, nsteal_0);
+		return Math.max(result_1, result_0);
+    }
+}
