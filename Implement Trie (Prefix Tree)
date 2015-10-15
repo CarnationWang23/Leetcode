@@ -1,0 +1,90 @@
+class TrieNode {
+    // Initialize your data structure here.
+    char val;
+    boolean isEnd;
+    List<TrieNode> next;
+    public TrieNode() {
+    	isEnd = false;
+    	next = new LinkedList<TrieNode>();
+    }
+}
+
+public class Trie {
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    public void insert(String word) {
+    	TrieNode p = root;
+    	boolean flag;
+    	int i=0;
+        for(; i<word.length(); i++)
+        {
+        	flag = false;
+        	for(TrieNode t : p.next)
+        	{
+        		if(t.val==word.charAt(i))
+        		{
+        			flag = true;
+        			p = t;
+        			break;
+        		}
+        	}
+        	if(!flag) break;
+        }
+        for(; i<word.length(); i++)
+        {
+        	TrieNode t = new TrieNode();
+        	t.val = word.charAt(i);
+        	p.next.add(t);
+        	p = t;
+        }
+        p.isEnd = true;
+    }
+
+    // Returns if the word is in the trie.
+    public boolean search(String word) {
+        TrieNode p = root;
+        boolean flag;
+        for(int i=0; i<word.length(); i++)
+        {
+        	flag = false;
+        	for(TrieNode t : p.next)
+        	{
+        		if(t.val==word.charAt(i))
+        		{
+        			flag = true;
+        			p = t;
+        			break;
+        		}
+        	}
+        	if(!flag) return false;
+        }
+        return p.isEnd;
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    public boolean startsWith(String prefix) {
+    	TrieNode p = root;
+        boolean flag;
+        for(int i=0; i<prefix.length(); i++)
+        {
+        	flag = false;
+        	for(TrieNode t : p.next)
+        	{
+        		if(t.val==prefix.charAt(i))
+        		{
+        			flag = true;
+        			p = t;
+        			break;
+        		}
+        	}
+        	if(!flag) return false;
+        }
+        return true;
+    }
+}
