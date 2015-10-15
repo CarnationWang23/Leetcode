@@ -1,0 +1,39 @@
+public class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        ArrayList[] preLists = new ArrayList[numCourses];
+		int[] order = new int[numCourses];
+		for(int i=0; i<numCourses; i++)
+		{
+			preLists[i] = new ArrayList<Integer>();
+		}   
+		if(prerequisites!=null)
+		{
+			for(int i=0; i<prerequisites.length; i++)
+			{
+				if(!preLists[prerequisites[i][0]].contains(prerequisites[i][1]))
+					preLists[prerequisites[i][0]].add(prerequisites[i][1]);
+			}
+		}  
+		boolean[] added = new boolean[numCourses];
+		for(int i=0; i<numCourses; i++)
+		{
+			boolean finded = false;
+			for(int j=0; j<numCourses; j++)
+			{
+				if(!added[j]&&preLists[j].isEmpty())
+				{
+					order[i] = j;
+					finded = true;
+					added[j]=true;
+					for(int k=0; k<numCourses; k++)
+					{
+						preLists[k].remove((Integer)j);
+					}
+					break;
+				}
+			}
+			if(!finded) return new int[0];
+		}
+		return order;
+    }
+}
