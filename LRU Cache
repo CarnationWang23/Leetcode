@@ -1,0 +1,93 @@
+public class LRUCache { 
+	
+	class Node{
+		private int key;
+		private int val;
+		public Node next;
+		public Node pre;
+		Node(int key, int val, Node pre)
+		{
+			this.key = key;
+			this.val = val;
+			this.pre = pre;
+		}
+	}
+
+	private HashMap<Integer, Node> map;
+	int capacity;
+	int length;
+	Node head, tail;
+	
+	public LRUCache(int capacity) { 
+		if(capacity<1)
+			throw new RuntimeException("capacity not valid");
+		map = new HashMap<Integer, Node>();
+		this.capacity = capacity;
+		head = new Node(0,0,null);
+		tail = null;
+	}
+
+	public int get(int key) { 
+		if(map.get(key)==null) return -1;
+		Node re = map.get(key);
+		re.pre.next = re.next;
+		if(re.next!=null)
+			re.next.pre = re.pre;
+		else if(re.pre!=head)
+			tail = re.pre;
+		re.next = head.next;
+		re.pre = head;
+		if(head.next!=null)
+			head.next.pre = re;
+		head.next = re;
+		return re.val;
+	}
+
+	public void set(int key, int val) { 
+		if(map.containsKey(key))
+		{
+			Node n = map.get(key);
+			n.pre.next = n.next;
+			if(n.next!=null)
+				n.next.pre = n.pre;
+			else if(n.pre!=head)
+				tail = n.pre;
+			n.next = head.next;
+			n.pre = head;
+			if(head.next!=null)
+				head.next.pre = n;
+			head.next = n;
+			n.val = val;
+		}
+		else
+		{
+			if(length==capacity)
+			{
+				Node n = new Node(key, val, head);
+				n.next = head.next;
+				head.next.pre = n;
+				head.next = n;
+				map.remove(tail.key);
+				map.put(key, n);
+				tail = tail.pre;
+				tail.next = null;
+			}
+			else
+			{
+				Node n = new Node(key, val, head);
+				if(tail==null) {
+					tail = n;
+				}
+				if(head.next!=null)
+				{
+					
+					head.next.pre = n;
+				}
+				n.next = head.next;
+				head.next = n;
+				map.put(key, n);
+				length++;
+			}
+		}
+	} 
+}
