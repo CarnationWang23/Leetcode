@@ -1,0 +1,22 @@
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+		if(nums==null||nums.length<k) return -1;
+		return findKthHelper(nums, 0, nums.length-1, k);        
+	}
+    public int findKthHelper(int[] nums, int start, int end, int k)
+	{	
+		int pivot = nums[start];
+		int p=start, q=end;
+		while(p<q)
+		{
+			while(p<q&&nums[q]<=pivot) q--;
+			nums[p] = nums[q];
+			while(p<q&&nums[p]>pivot) p++;
+			nums[q] = nums[p];
+		}
+		nums[p] = pivot;
+		if(p-start+1==k) return pivot;
+		else if(p-start+1<k) return findKthHelper(nums, p+1, end, k-(p-start+1));
+	    else return findKthHelper(nums, start, p-1, k);
+	}
+}
