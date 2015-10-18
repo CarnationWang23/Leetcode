@@ -1,0 +1,35 @@
+public class Solution {
+    class comparableNode implements Comparable<comparableNode>{
+		int ind;
+		int val;
+		comparableNode(int index, int value){
+			ind = index;
+			val = value;
+		}
+
+		public int compareTo(comparableNode n)
+		{
+			if(val<n.val) return -1;
+			else if(val==n.val) return 0;
+			else return 1;
+		}
+	}
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+    	comparableNode[] nodes = new comparableNode[nums.length];
+    	for(int i=0; i<nums.length; i++)
+    	{
+    		nodes[i] = new comparableNode(i, nums[i]);
+    	}
+    	Arrays.sort(nodes);
+    	for(int i=0; i<nums.length-1; i++)
+    	{a
+    		int j= i+1;
+    		while(j<nums.length&&(long)nodes[i].val+(long)t>=(long)nodes[j].val)
+    		{
+    			if(Math.abs(nodes[i].ind-nodes[j].ind)<=k) return true;
+    			j++;
+    		}
+    	}
+    	return false;
+    }
+}
