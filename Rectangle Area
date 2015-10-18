@@ -1,0 +1,40 @@
+public class Solution {
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int len=0, wid=0;
+		if(A<=E&&E<=C)
+		{
+			len = Math.min(G,C)-E;
+		}
+		else if(A<=G&&G<=C)
+		{
+			len = G-A;
+		}
+		else if(G>C&&E<A)
+		{
+			len = C-A;
+		}
+		else
+		{
+			len = 0;
+		}
+
+		if(B<=F&&F<=D)
+		{
+			wid = Math.min(H,D)-F;
+		}
+		else if(B<=H&&H<=D)
+		{
+			wid = H-B;
+		}
+		else if(F<B&&D<H)
+		{
+			wid = D-B;
+		}
+		else
+		{
+			wid = 0;
+		}
+		int sum = (C-A)*(D-B)+(G-E)*(H-F);
+		return sum-len * wid;
+    }
+}
