@@ -1,0 +1,27 @@
+public class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> list = new LinkedList<List<Integer>>();
+        combinationHelper(k, n, 1, new LinkedList<Integer>(), list);
+        return list;
+    }
+
+    public void combinationHelper(int k, int n, int start, List<Integer> item, List<List<Integer>> list)
+    {
+    	if(start>9||k==0) return;
+    	else if(k==1&&n>=start&&n<=9)
+    	{
+    		List<Integer> newItem = new LinkedList<Integer>(item);
+    		newItem.add(n);
+    		list.add(newItem);
+    	}
+    	else
+    	{
+    		for(int i=start; i<=9; i++)
+    		{
+    			List<Integer> newItem = new LinkedList<Integer>(item);
+    			newItem.add(i);
+    			combinationHelper(k-1, n-i, i+1, newItem, list);
+    		}
+    	}
+    }
+}
