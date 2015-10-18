@@ -1,0 +1,39 @@
+class MyStack {
+    Deque<Integer> stack1 = new ArrayDeque<Integer>();
+    Deque<Integer> stack2 = new ArrayDeque<Integer>();
+
+    // Push element x onto stack.
+    public void push(int x) {
+        if (stack2.size() == 0)
+            stack1.addLast(x);
+        else
+            stack2.addLast(x);
+    }
+
+    // Removes the element on top of the stack.
+    public void pop() {
+        Deque<Integer> dequeue = (stack2.size() == 0) ? stack1 : stack2;
+        Deque<Integer> buffer = (stack2.size() == 0) ? stack2 : stack1;
+        while (dequeue.size() > 1) {
+            buffer.addLast(dequeue.removeFirst());
+        }
+        dequeue.removeFirst();
+    }
+
+    // Get the top element.
+    public int top() {
+        Deque<Integer> dequeue = (stack2.size() == 0) ? stack1 : stack2;
+        Deque<Integer> buffer = (stack2.size() == 0) ? stack2 : stack1;
+        while (dequeue.size() > 1) {
+            buffer.addLast(dequeue.removeFirst());
+        }
+        int val = dequeue.peekFirst();
+        buffer.addLast(dequeue.removeFirst());
+        return val;
+    }
+
+    // Return whether the stack is empty.
+    public boolean empty() {
+        return stack1.size() == 0 && stack2.size() == 0;
+    }
+}
