@@ -1,0 +1,59 @@
+public class Solution {
+    public int calculate(String s) {
+		ArrayDeque<String> ad = new ArrayDeque<String>();
+		for(int i=0; i<s.length(); i++)
+		{
+			if(s.charAt(i)=='+') ad.add("+");
+			else if(s.charAt(i)=='-') ad.add("-");
+			else if(s.charAt(i)=='*')
+			{
+				int num1 = Integer.parseInt(ad.removeLast());
+				int num2 = 0;
+				i++;
+				while(i<s.length()&&s.charAt(i)==' ') i++;
+				while(i<s.length()&&s.charAt(i)<='9'&&s.charAt(i)>='0')
+				{
+					num2 = num2*10+(s.charAt(i)-'0');
+					i++;
+				}
+				i--;
+				ad.add(Integer.toString(num1*num2));
+			}
+			else if(s.charAt(i)=='/')
+			{
+				int num1 = Integer.parseInt(ad.removeLast());
+				int num2 = 0;
+				i++;
+				while(i<s.length()&&s.charAt(i)==' ') i++;
+				while(i<s.length()&&s.charAt(i)<='9'&&s.charAt(i)>='0')
+				{
+					num2 = num2*10+(s.charAt(i)-'0');
+					i++;
+				}
+				i--;
+				ad.add(Integer.toString(num1/num2));
+			}
+			else if(i<s.length()&&s.charAt(i)!=' ')
+			{
+				int num = 0;
+				while(i<s.length()&&s.charAt(i)<='9'&&s.charAt(i)>='0')
+				{
+					num = num*10+(s.charAt(i)-'0');
+					i++;
+				}
+				i--;
+				ad.add(Integer.toString(num));
+			}
+		}
+		int re = Integer.parseInt(ad.pollFirst());
+		while(!ad.isEmpty())
+		{
+			String sign = ad.pollFirst();
+			if(sign.equals("+"))
+				re = re + Integer.parseInt(ad.pollFirst());
+			else if(sign.equals("-"))
+				re = re - Integer.parseInt(ad.pollFirst());
+		}
+		return re;
+    }
+}
