@@ -1,0 +1,39 @@
+public class Solution {
+    public int maximalSquare(char[][] matrix) {
+		if(matrix==null||matrix.length==0) return 0;
+		int max = 0;
+	    for(int i=0; i<matrix.length; i++)
+        {
+        	for(int j=0; j<matrix[0].length; j++)
+        	{
+        		max = Math.max(maximalHelper(matrix, i, j), max);
+        		if(j+max>matrix[0].length-1)
+        			break;
+        	}
+        	if(i+max>matrix.length-1)
+        		break;
+        }
+        return max*max;
+    }
+
+    public int maximalHelper(char[][] matrix, int i, int j)
+    {
+    	if(matrix[i][j]=='0') return 0;
+    	int row = i, column = j, maxCol = matrix[0].length-1;
+    	while(row<matrix.length&&row<=i+(maxCol-j))
+    	{
+    		if(matrix[row][j]=='0')
+    		{
+    			break;
+    		}	
+    		column = j;
+    		while(column<=maxCol && matrix[row][column]=='1')
+    		{
+    			column++;
+    		}
+    		maxCol = Math.min(maxCol, column-1);
+    		row++;
+    	}
+    	return Math.min(maxCol-j+1,row-i);
+    }
+}
