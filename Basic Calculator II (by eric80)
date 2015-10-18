@@ -1,0 +1,57 @@
+public class Solution {
+int asoperand = 0; // pending add/sub operand
+int mdoperand = 0; // pending mul/div operand
+boolean pendingMul = false;
+boolean pendingDiv = false;
+boolean pendingAdd = false;
+boolean pendingSub = false;
+
+// Order of operations require us to first evaluate multiply/divide and then add/subtract
+// When reading the expression, upon reaching +,-,*,/ we can evaluate any previous pending
+// operations.  For multiply/divide, we can only evaluate any pending multiply/divide
+// since any add/sub pending operation needs rightside operand to be fully evaluated
+// in the case of any additional multiply/divide.  For add/subtract, we can evaluate
+// any pending multiply/divide along and also use the result as rightside operand of
+// any pending add/sub.
+public int calculate(String s) {
+    int currentValue = 0;
+    for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        if (c == '+' || c == '-') {
+            currentValue = evalPendingMulDiv(currentValue);
+            asoperand = evalPendingAddSub(currentValue);
+            currentValue = 0;
+            pendingAdd = c == '+';
+            pendingSub = c == '-';
+        } else if (c == '*' || c == '/') {
+            mdoperand = evalPendingMulDiv(currentValue);
+            currentValue = 0;
+            pendingMul = c == '*';
+            pendingDiv = c == '/';
+        } else if (c - '0' >= 0 && c - '0' <= 9) {
+            currentValue = currentValue * 10 + (c - '0');
+        }
+    }
+
+    currentValue = evalPendingMulDiv(currentValue);
+    return evalPendingAddSub(currentValue);
+}
+
+private int evalPendingMulDiv(int current) {
+    if (pendingMul || pendingDiv) {
+        current = pendingMul ? mdoperand * current : mdoperand / current;
+        pendingMul = false;
+        pendingDiv = false;
+    }
+    return current;
+}
+
+private int evalPendingAddSub(int current) {
+     if (pendingAdd || pendingSub) {
+        // the next add/sub operand will be the result of this operation
+        current = pendingAdd ? asoperand + current : asoperand - current;
+        pendingAdd = false;
+        pendingSub = false;
+    }
+    return current;
+}
