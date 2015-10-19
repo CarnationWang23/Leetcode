@@ -1,0 +1,42 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+		char[] pattern = p.toCharArray();
+		char[] str = s.toCharArray();
+		int i,pos;
+		for(i=0,pos = 0; i<p.length() && pos<s.length(); i++,pos++)
+		{
+			if(i+1<p.length() && pattern[i+1]=='*')
+			{
+				if(pattern[i]!='.')
+				{
+					boolean flag = isMatch(s.substring(pos),p.substring(i+2));
+					for(int j=pos;j<s.length()&&str[j]==pattern[i];j++) 
+					{
+						if(flag) break;
+						if(isMatch(s.substring(j+1),p.substring(i+2))) flag = true;
+					}
+					return flag;
+				}
+				else{
+						boolean flag = false;
+						for(int j=pos; j<=s.length(); j++)
+						{
+							if(isMatch(s.substring(j),p.substring(i+2))) flag = true;
+						}
+						return flag;
+					}
+			}
+			else if(pattern[i]!='.')
+			{
+				if(str[pos]!=pattern[i]) return false;
+			}
+		}
+		while(i+1<p.length())
+		{
+		    if(pattern[i+1]=='*')
+		        i+=2;
+		    else break;
+		}
+		return i==p.length() && pos==s.length();
+    }
+}
