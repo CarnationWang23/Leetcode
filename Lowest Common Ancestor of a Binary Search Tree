@@ -1,0 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        
+		if(p==null||q==null) return p==null?q:p;
+
+		int minP=0, maxP=0, minQ=0, maxQ=0;
+		TreeNode t = p;
+		while(t.left!=null)
+		{
+			t = t.left;
+		}
+		minP = t.val;
+		t = p;
+		while(t.right!=null)
+		{
+			t = t.right;
+		}
+		maxP = t.val;
+		t = q;
+		while(t.left!=null)
+		{
+			t = t.left;
+		}
+		minQ = t.val;
+		t = q;
+		while(t.right!=null)
+		{
+			t = t.right;
+		}
+		maxQ = t.val;
+		if(minP<=minQ&&maxP>=maxQ)
+		{
+			return p;
+		}
+		else if(minP>=minQ&&maxP<=maxQ)
+		{
+			return q;
+		}
+		else{
+			int left = maxP<minQ ? maxP:maxQ;
+			int right = maxP<minQ ? minQ:minP;
+			t = root;
+			while(t!=null)
+			{
+				if(t.val<left)
+				{
+					t = t.right;
+				}
+				else if(t.val>right)
+				{
+					t = t.left;
+				}
+				else
+				{
+					return t;
+				}
+			}
+			return null;
+		}
+	
+    }
+}
