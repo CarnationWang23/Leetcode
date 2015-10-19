@@ -1,0 +1,34 @@
+public class Solution {
+    public List<String> summaryRanges(int[] nums) {
+		List<String> list = new LinkedList<String>();
+		if(nums==null||nums.length==0) return list;
+		if(nums.length==1)
+		{
+			list.add(Integer.toString(nums[0]));
+			return list;
+		}
+		int p=nums[0];
+		int count=0;
+		for(int i=1; i<nums.length; i++)
+		{
+			if(nums[i]==p+1) 
+			{
+				count++;
+				p++;
+			}else{
+				if(count==0)
+					list.add(Integer.toString(p));
+				else
+					list.add(Integer.toString(p-count)+"->"+Integer.toString(p));
+				p = nums[i];
+				count = 0;
+			}
+		} 
+		if(count==0)
+			list.add(Integer.toString(p));
+		else
+			list.add(Integer.toString(p-count)+"->"+Integer.toString(p));
+		return list;
+	
+	}
+}
