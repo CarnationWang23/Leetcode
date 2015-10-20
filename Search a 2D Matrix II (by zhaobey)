@@ -1,0 +1,15 @@
+bool searchMatrix(int** matrix, int matrixRowSize, int matrixColSize, int target) {
+     if(colnum == 0 || rownum == 0) return false;
+    int sx = colnum - 1, sy = 0;
+    while ( sx >= 0 && sy<rownum)
+    {
+        if (a[sy][sx]>k)
+            --sx;
+        else if ( a[sy][sx]<k)
+            ++sy;
+            else 
+            return true;
+    }
+    return false;
+
+}
