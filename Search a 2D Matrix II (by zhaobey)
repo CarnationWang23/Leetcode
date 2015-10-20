@@ -1,3 +1,4 @@
+//using c code and the time complexity in the badest case is O(mn)
 bool searchMatrix(int** matrix, int matrixRowSize, int matrixColSize, int target) {
      if(colnum == 0 || rownum == 0) return false;
     int sx = colnum - 1, sy = 0;
