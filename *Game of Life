@@ -19,6 +19,7 @@ public class Solution {
 		}
     }
 
+
     public void check(int[][] board, int i, int j, int a, int b)
     {
         int m = board.length, n = board[0].length;
