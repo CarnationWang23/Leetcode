@@ -1,0 +1,146 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+	    // Encodes a tree to a single string.
+	    public String serialize(TreeNode root) {
+	    	if(root==null) return "null";
+	        Queue<TreeNode> q = new LinkedList<TreeNode>();
+	        StringBuilder sb = new StringBuilder();
+	        q.add(root);
+	        sb.append(root.val+",");
+	        boolean flag = true;
+	        while(flag)
+	        {
+	        	flag = false;
+	        	int count = q.size();
+	        	for(int i=0; i<count; i++)
+	        	{
+	        		TreeNode tn = q.remove();
+	        		if(tn!=null)
+	        		{
+	        			if(tn.left!=null)
+	        			{
+	        				flag = true;
+	        				q.add(tn.left);
+	        				sb.append(tn.left.val+",");
+	        			}
+	        			else{
+	        				q.add(null);
+	        				sb.append("null"+",");
+	        			}
+	        			if(tn.right!=null)
+	        			{
+	        				flag = true;
+	        				q.add(tn.right);
+	        				sb.append(tn.right.val+",");
+	        			}
+	        			else{
+	        				q.add(null);
+	        				sb.append("null"+",");
+	        			}
+	        		}
+	        	}
+	        	if(!flag)
+	        	{
+	        		return sb.toString();
+	        	}
+	        }
+	        return "";
+	    }
+
+	    // Decodes your encoded data to tree.
+	    public TreeNode deserialize(String data) {
+	        if(data.charAt(0)=='n') return null;
+	        int pos = 0, num = 0;
+	        boolean neg=false;
+	        if(data.charAt(pos)=='-')
+	        {
+	        	neg = true;
+	        	pos++;
+	        }
+	        while(data.charAt(pos)>='0'&&data.charAt(pos)<='9'&&pos!=data.length())
+	        {
+	        	num=num*10+(data.charAt(pos)-'0');
+	        	pos++;
+	        }
+	        num = neg? -num : num;
+	        pos++;
+	        Queue<TreeNode> list = new LinkedList<TreeNode>();
+	        TreeNode root = new TreeNode(num);
+	        list.add(root);
+	        while(pos<data.length())
+	        {
+	        	int count = list.size();
+	        	for(int i=0; i<count; i++)
+	        	{
+	        		TreeNode cur = list.remove();
+	        		if(cur!=null)
+	        		{
+	        			if(data.charAt(pos)=='n')
+		        		{
+		        			cur.left = null;
+		        			pos = pos+4;
+		        		}
+		        		else
+		        		{
+		        			num =  0;
+		        			neg=false;
+		        	        if(data.charAt(pos)=='-')
+		        	        {
+		        	        	neg = true;
+		        	        	pos++;
+		        	        }
+		        	        while(data.charAt(pos)>='0'&&data.charAt(pos)<='9'&&pos!=data.length())
+		        	        {
+		        	        	num=num*10+(data.charAt(pos)-'0');
+		        	        	pos++;
+		        	        }
+		        	        num = neg? -num : num;
+		        			cur.left = new TreeNode(num);
+		        		}
+		        		pos++;
+		        		if(data.charAt(pos)=='n')
+		        		{
+		        			cur.right = null;
+		        			pos = pos+4;
+		        		}
+		        		else
+		        		{
+		        			num =  0;
+		        			neg=false;
+		        	        if(data.charAt(pos)=='-')
+		        	        {
+		        	        	neg = true;
+		        	        	pos++;
+		        	        }
+		        	        while(data.charAt(pos)>='0'&&data.charAt(pos)<='9'&&pos!=data.length())
+		        	        {
+		        	        	num=num*10+(data.charAt(pos)-'0');
+		        	        	pos++;
+		        	        }
+		        	        num = neg? -num : num;
+		        			cur.right = new TreeNode(num);
+		        		}
+		        		pos++;
+		        		list.add(cur.left);
+		        		list.add(cur.right);
+	        		}
+	        	}
+	        	
+	        }
+			return root;
+
+	    }
+	}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));
