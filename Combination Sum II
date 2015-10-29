@@ -1,66 +1,32 @@
-package lc_test;
-
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Stack;
-import java.util.List;
-
 public class Solution {
-
-	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         Arrays.sort(candidates);
-        if(target<candidates[0]) return new LinkedList<List<Integer>>();
-        List<List<Integer>> result = new LinkedList<List<Integer>>();
-        List<List<Integer>> tresult = cCombinationSum(candidates, 0, target);
-		for(int j=0; j<tresult.size(); j++)
-		{
-			if(!tresult.get(j).contains(-1))
-			{
-				result.add(tresult.get(j));
-			}
-		}
-        return result;
-    }
-	
-	public List<List<Integer>> cCombinationSum(int[] candidates, int start, int target) {
-		List<List<Integer>> result = new LinkedList<List<Integer>>();
-		List<List<Integer>> tresult  = null;
-        for(int i=start; i<candidates.length; i++)
+        List<List<Integer>> list = new LinkedList<List<Integer>>();
+        for(int i=0; i<candidates.length; i++)
         {
-        	if(target==candidates[i]) 
-        	{
-        		List<Integer> tlist = new LinkedList<>();
-        		tlist.add(candidates[i]);
-        		result.add(tlist);
-        	}
-        	else if(target<candidates[i])
-        	{
-        		List<Integer> tlist = new LinkedList<>();
-        		tlist.add(-1);
-        		result.add(tlist);
-        	}
-        	else
-        	{
-        		tresult = cCombinationSum(candidates, i+1, target-candidates[i]);
-        		for(int j=0; j<tresult.size(); j++)
-        		{
-        			if(!tresult.get(j).contains(-1))
-        			{
-        				List<Integer> tlist = new LinkedList<>();
-        				tlist.add(candidates[i]);
-        				tlist.addAll(tresult.get(j));
-        				result.add(tlist);
-        			}
-        		}
-        	}
+        	combinationHelper(candidates, i, target, new LinkedList<Integer>(), list);
         	while(i<candidates.length-1 && candidates[i]==candidates[i+1]) i++;
         }
-        return result;
+        return list;
     }
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		int[] test = {10,1,2,7,6,1,5};
-		System.out.println(new Solution().combinationSum(test, 8));
-	}	
+    
+    public void combinationHelper(int[] candidates, int start, int target, List<Integer> item, List<List<Integer>> list)
+    {
+        if(candidates[start]>target) return;
+        else if(candidates[start]==target)
+        {
+            item.add(candidates[start]);
+            list.add(item);
+            return;
+        }
+        else{
+            for(int i=start+1; i<candidates.length; i++)
+            {
+                List<Integer> tlist = new LinkedList<Integer>(item);
+                tlist.add(candidates[start]);
+                combinationHelper(candidates, i, target-candidates[start], tlist, list);
+                while(i<candidates.length-1 && candidates[i]==candidates[i+1]) i++;
+            }
+        }
+    }
 }
