@@ -1,0 +1,38 @@
+public class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> list = new LinkedList<Integer>();
+        if(words==null||words.length==0||s.length()<words[0].length()) return list;
+        Map<String, Integer> wordsDup = new HashMap<String, Integer>();
+        for(int i=0; i<words.length; i++)
+        {
+        	wordsDup.put(words[i], wordsDup.getOrDefault(words[i],0)+1);
+        }
+        String[] found = new String[s.length()-words[0].length()+1];
+        for(int i=0; i<s.length()-words[0].length()+1; i++)
+        {
+            String sub = s.substring(i, i+words[0].length());
+            if(wordsDup.containsKey(sub)) found[i] = sub;
+            else found[i] = "";
+        }
+        for(int i=0; i<s.length()-words[0].length()*words.length+1; i++)
+        {
+            if(isCWord(s, words.length, words[0].length(), wordsDup, i, found)) list.add(i);
+        }
+        return list;
+    }
+    
+    public boolean isCWord(String s, int size, int length, Map<String, Integer> wordsDup, int i, String[] found)
+    {
+    	Map<String, Integer> wordsDupt = new HashMap<String, Integer>();
+    	wordsDupt.putAll(wordsDup);
+    	
+        for(int j=0; j<size; j++)
+        {
+        	String t = found[i+j*length];
+        	if(wordsDupt.getOrDefault(t, 0)==0)
+        		return false;
+        	else wordsDupt.put(t, wordsDupt.get(t)-1);
+        }
+        return true;
+    }
+}
