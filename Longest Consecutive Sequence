@@ -1,0 +1,35 @@
+public int longestConsecutive(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int len=nums.length>0?1:0;
+        for(int i=0; i<nums.length; i++)
+        {
+            if(!map.containsKey(nums[i]))
+            {
+                Integer smaller=map.get(nums[i]-1), bigger=map.get(nums[i]+1);
+                if(smaller!=null&&bigger!=null)
+                {
+                	int newLen = bigger+smaller+1;
+                    map.put(nums[i]-smaller, newLen);
+                    map.put(nums[i], newLen);
+                    map.put(nums[i]+bigger, newLen);
+                    len = Math.max(len, newLen);
+                }
+                else if(smaller!=null)
+                {
+                	 int newLen = smaller+1;
+            	     map.put(nums[i]-smaller, newLen);
+                     map.put(nums[i], newLen);
+                     len = Math.max(len, newLen);
+                }
+                else if(bigger!=null) 
+                {
+            	    int newLen = bigger+1;
+                    map.put(nums[i], newLen);
+                    map.put(nums[i]+bigger, newLen);
+                    len = Math.max(len, newLen);
+                }
+                else map.put(nums[i], 1);
+                }
+            }
+        return len;
+    }
