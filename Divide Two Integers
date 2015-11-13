@@ -1,0 +1,23 @@
+public class Solution {
+    public int divide(int dividend, int divisor) {
+        if(divisor==0) return Integer.MAX_VALUE;
+        if(divisor==1) return dividend;
+        if(dividend==Integer.MIN_VALUE && divisor==-1) return Integer.MAX_VALUE;
+        boolean neg = dividend<0&&divisor>0 || dividend>0&&divisor<0;
+        long ldividend = dividend<0 ? -(long)dividend:(long)dividend;
+        long ldivisor = divisor<0? -(long)divisor:(long)divisor;
+        int re = 0;
+        while(ldividend>=ldivisor)
+        {
+            long div = ldivisor, i=1;
+            while(ldividend>=div+div) 
+            {
+                div+=div;
+                i+=i;
+            }
+            ldividend-=div;
+            re+=i;
+        }
+        return neg? -re:re;
+    }
+}
