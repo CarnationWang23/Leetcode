@@ -1,0 +1,50 @@
+public class Solution {
+    public boolean isAdditiveNumber(String num) {
+        char[] nums = num.toCharArray();
+        return isAdditiveNumber(nums, 0, new LinkedList<Long>());
+    }
+    
+    public boolean isAdditiveNumber(char[] nums, int start, List<Long> list)
+    {
+    	if(start==nums.length) return list.size()>=3;
+        if(list.size()<2)
+        {
+            long num=0;
+            if(nums[start]!='0')
+            {
+            	for(int i=start; i<nums.length; i++)
+                {
+                    num = num*10+(nums[i]-'0');
+                    List<Long> newList = new LinkedList<Long>(list);
+                	newList.add(num);
+                    if(isAdditiveNumber(nums, i+1, newList)) return true;
+                }
+                return false;
+            }
+            else{
+            	List<Long> newList = new LinkedList<Long>(list);
+            	newList.add((long)0);
+                return isAdditiveNumber(nums, start+1, newList);
+            }
+            
+        }
+        else 
+        {
+            Long num1 = list.get(list.size()-1);
+            Long num2 = list.get(list.size()-2);
+            char[] num3 = ((Long)(num1+num2)).toString().toCharArray();
+            int i;
+            for(i=start; i<nums.length && i-start<num3.length; i++)
+            {
+                if(num3[i-start]!=nums[i]) return false;
+            }
+            if(i-start==num3.length)
+            {
+            	List<Long> newList = new LinkedList<Long>(list);
+            	newList.add(num1+num2);
+            	return isAdditiveNumber(nums, i, newList);
+            }
+            return false;
+        }
+    }
+}
