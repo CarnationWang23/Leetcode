@@ -1,0 +1,21 @@
+public int maxCoins(int[] nums) {
+    	if (nums == null || nums.length == 0) return 0;
+    	
+        int[][] dp = new int[nums.length][nums.length];
+        for(int length=1; length<=nums.length; length++)
+        {
+        	for(int left=0; left<=nums.length-length; left++)
+        	{
+        		int right = left + length -1;
+        		for(int k=left; k<=right; k++)
+        		{
+        			int lval = left==0? 1 : nums[left-1];
+        			int rval = right==nums.length-1? 1: nums[right+1];
+        			int lmax = k==left? 0 : dp[left][k-1];
+        			int rmax = k==right? 0 : dp[k+1][right];
+        			dp[left][right] = Math.max(dp[left][right], lmax+lval*nums[k]*rval+rmax);
+        		}
+        	}
+        }
+        return dp[0][nums.length-1];
+    }
