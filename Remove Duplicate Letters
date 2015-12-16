@@ -1,0 +1,41 @@
+public class Solution {
+    public String removeDuplicateLetters(String s) {
+        
+		int count = 0;
+        LinkedList[] positions = new LinkedList[26];
+        for(int i=0; i<26; i++) positions[i] = new LinkedList<Integer>();
+        //scan the string to get its basic info: positions and existing for every char
+        for(int i=0; i<s.length(); i++)
+        { 
+        	if(positions[s.charAt(i)-'a'].size()==0) count++;
+            positions[s.charAt(i)-'a'].add(i);
+        }
+        //determine the position for each char by deleting the inefficient position
+        StringBuilder sb = new StringBuilder();
+        while(count-->0)
+        {
+        	int smallestLargest = Integer.MAX_VALUE;
+        	int i;
+        	for(i=0; i<26; i++)
+            { 
+            	if(positions[i].size()!=0) 
+            		smallestLargest = Math.min(smallestLargest, (int) positions[i].peekLast());
+            }
+        	for(i=0; i<26; i++)
+            { 
+            	if(positions[i].size()!=0 && (int) positions[i].peekFirst() <= smallestLargest)
+            		break;
+            }
+        	sb.append((char)(i+'a'));
+        	for(int j=0; j<26; j++)
+            { 
+            	if(positions[j].size()!=0) 
+            		while((int)positions[j].peekFirst() < (int)positions[i].peekFirst())
+            			positions[j].remove(0);
+            }
+        	positions[i].clear();
+        }
+        
+        return String.valueOf(sb.toString());
+    }
+}
