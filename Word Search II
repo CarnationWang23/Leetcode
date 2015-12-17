@@ -1,0 +1,73 @@
+public class Solution {
+    class TrieNode {
+		int value;
+	    boolean isEnd;
+	    HashMap<Character, TrieNode> next;
+	    public TrieNode(int val) 
+	    {
+	    	value = val;
+	        isEnd = false;
+	        next = new HashMap<Character, TrieNode>();
+	    }
+	}
+	
+	class Trie {
+	    public TrieNode root;
+	    
+	    public Trie() {
+	        root = new TrieNode('*');
+	    }
+
+	    // Inserts a word into the trie.
+	    public void insert(String word) {
+	        TrieNode current = root;
+	        int i;
+	        for(i=0; i<word.length(); i++)
+	        {
+	            if(!current.next.containsKey(word.charAt(i)))
+	                break;
+	            current = current.next.get(word.charAt(i));
+	        }
+	        for(;i<word.length(); i++)
+	        {
+	            TrieNode tn = new TrieNode(word.charAt(i));
+	            current.next.put(word.charAt(i), tn);
+	            current = tn;
+	        }
+	        current.isEnd = true;
+	    }
+	}
+	
+	public List<String> findWords(char[][] board, String[] words) {
+		List<String> re = new LinkedList<String>();
+        Trie trie = new Trie();
+        for(String str : words) trie.insert(str);
+        for(int i=0; i<board.length; i++)
+        {
+        	for(int j=0; j<board[0].length; j++)
+        	{
+        		dfsTrie(board, new boolean[board.length][board[0].length], i, j, trie.root, re, new StringBuilder());
+        	}
+        }
+        return re;
+    }
+	
+	public void dfsTrie(char[][] board, boolean[][] used, int i, int j, TrieNode tn, List<String> re, StringBuilder sb)
+	{
+		for(TrieNode next : tn.next.values())
+		{
+			if(next.value==board[i][j])
+			{
+				sb.append(board[i][j]);
+				if(next.isEnd && !re.contains(sb.toString())) re.add(sb.toString());
+				used[i][j] = true;
+				if(i>0 && !used[i-1][j]) dfsTrie(board, used, i-1, j, next, re, sb);
+		        if(i<board.length-1 && !used[i+1][j]) dfsTrie(board, used, i+1, j, next, re, sb);
+		        if(j>0 && !used[i][j-1]) dfsTrie(board, used, i, j-1, next, re, sb);
+		        if(j<board[0].length-1 && !used[i][j+1]) dfsTrie(board, used, i, j+1, next, re, sb);
+		        sb.deleteCharAt(sb.length()-1);
+		        used[i][j] = false;
+			}
+		}
+	}
+}
