@@ -1,0 +1,17 @@
+public class Solution {
+    public String shortestPalindrome(String s) {
+        char[] chars = new char[s.length()];
+        for(int i=0; i<s.length(); i++) chars[i] = s.charAt(s.length()-1-i);
+        String rs = String.valueOf(chars);
+        String ms = s+'#'+rs;
+        int[] next = new int[ms.length()];
+        for(int i=1; i<ms.length(); i++)
+        {
+            int j = next[i-1];
+            while (j > 0 && ms.charAt(i) != ms.charAt(j))
+                j = next[j - 1];
+            next[i] = (j += ms.charAt(i) == ms.charAt(j) ? 1 : 0);
+        }
+        return rs.substring(0,s.length()-next[ms.length()-1])+s;
+    }
+}
