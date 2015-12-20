@@ -1,0 +1,28 @@
+public class Solution {
+    public int maximumGap(int[] nums) {
+        if(nums==null || nums.length<2) return 0;
+        int min = Integer.MAX_VALUE, max = 0;
+        for(int i=0; i<nums.length; i++)
+        {
+            min = Math.min(min, nums[i]);
+            max = Math.max(max, nums[i]);
+        }
+        int range = (int)Math.ceil((double)(max-min)/(nums.length-1));
+        int[] mins = new int[nums.length-1], maxs = new int[nums.length-1];
+        Arrays.fill(mins, Integer.MAX_VALUE);
+        for(int i=0; i<nums.length; i++)
+        {
+            if(nums[i]==max) continue;
+            mins[(nums[i]-min)/range] = Math.min(mins[(nums[i]-min)/range], nums[i]);
+            maxs[(nums[i]-min)/range] = Math.max(maxs[(nums[i]-min)/range], nums[i]);
+        }
+        int maxDif = 0, pre = min;
+        for(int i=0; i<nums.length-1; i++)
+        {
+            if(mins[i]==Integer.MAX_VALUE) continue;
+            maxDif = Math.max(maxDif, mins[i]-pre);
+            pre = maxs[i];
+        }
+        return Math.max(maxDif, max-pre);
+    }
+}
