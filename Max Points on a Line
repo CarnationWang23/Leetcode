@@ -1,0 +1,44 @@
+/**
+ * Definition for a point.
+ * class Point {
+ *     int x;
+ *     int y;
+ *     Point() { x = 0; y = 0; }
+ *     Point(int a, int b) { x = a; y = b; }
+ * }
+ */
+public class Solution {
+    public int maxPoints(Point[] points) {
+        if(points.length <= 2) return points.length;
+        int re = 0;
+        for(int i=0; i<points.length; i++)
+        {
+            Point p = points[i];
+            int count = 0;
+            int repetition = 0;
+            for(int j=i+1; j<points.length; j++)
+            {
+                count = 0;
+                Point q = points[j];
+                if(p.x==q.x && p.y==q.y)
+                {
+                    repetition++;
+                    re = Math.max(re, repetition+1);
+                    continue;
+                }
+                for(int k=j+1; k<points.length; k++)
+                {
+                    Point r = points[k];
+                    if(inLine(p, q, r)) count++;
+                }
+                re = Math.max(re, count+repetition+2);
+            }
+        }
+        return re;
+    }
+    
+    public boolean inLine(Point p, Point q, Point r)
+    {
+        return (q.y - p.y) *(r.x - q.x) - (r.y - q.y)*(q.x - p.x) == 0;
+    }
+}
