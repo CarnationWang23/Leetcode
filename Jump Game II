@@ -1,0 +1,15 @@
+public class Solution {
+    public int jump(int[] nums) {
+        if(nums.length<2) return 0;
+        int i = 0, last = 0, nextLast = 0, count = 0;
+        while(last>=i){
+        	count++;
+            for(; i<=last; i++){
+            	nextLast = Math.max(nextLast, i+nums[i]);
+            	if(nextLast >= nums.length-1) return count;
+            }
+            last = nextLast;
+        }
+        return 0;
+    }
+}
