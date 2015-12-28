@@ -1,0 +1,24 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        int s_pointer = 0, p_pointer = 0, restart_p_pointer = -1, restart_s_pointer = -1;
+        while(s_pointer < s.length()){
+            if(p_pointer<p.length() && (p.charAt(p_pointer)=='?' || p.charAt(p_pointer)==s.charAt(s_pointer))){
+            	s_pointer++;
+                p_pointer++;
+            }else if(p_pointer<p.length() && p.charAt(p_pointer) == '*'){
+            	p_pointer++;
+                restart_s_pointer = s_pointer+1;
+                restart_p_pointer = p_pointer;
+            }else if(restart_s_pointer!=-1){
+                p_pointer = restart_p_pointer;
+                s_pointer = restart_s_pointer++;
+            }else{
+                return false;
+            }
+        }
+        while(p_pointer < p.length() && p.charAt(p_pointer)=='*'){
+            p_pointer++;
+        }
+        return p_pointer == p.length();
+    }
+}
